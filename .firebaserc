@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "community-tracker-covid-19"
+  },
+  "targets": {
+    "community-tracker-covid-19": {
+      "hosting": {
+        "community-tracker-covid": [
+          "community-tracker-covid-19"
+        ]
+      }
+    }
+  }
+}

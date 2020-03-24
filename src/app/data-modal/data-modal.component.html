@@ -1,0 +1,62 @@
+<div class="modal-header bg-primary">
+  <div class="text-center w-100">
+    <h4 class="modal-title text-white">Información</h4>
+  </div>
+  <button type="button" class="close outline-none" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span class="text-white" aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="form" class="form">
+    <label>Síntomas</label>
+    <div class="btn-group-toggle form__symptom">
+      <label class="btn-primary form__symptom__option" ngbButtonLabel>
+        <input type="checkbox" formControlName="fiebre" ngbButton> Fiebre
+      </label>
+      <label class="btn-primary form__symptom__option" ngbButtonLabel>
+        <input type="checkbox" formControlName="cansancio" ngbButton> Cansancio
+      </label>
+      <label class="btn-primary form__symptom__option" ngbButtonLabel>
+        <input type="checkbox" formControlName="tosSeca" ngbButton> Tos seca
+      </label>
+      <label class="btn-primary form__symptom__option" ngbButtonLabel>
+        <input type="checkbox" formControlName="congestionNasal" ngbButton> Congestion nasal
+      </label>
+      <label class="btn-primary form__symptom__option" ngbButtonLabel>
+        <input type="checkbox" formControlName="rinorrea" ngbButton> Rinorrea
+      </label>
+      <label class="btn-primary form__symptom__option" ngbButtonLabel>
+        <input type="checkbox" formControlName="dolorGarganta" ngbButton> Dolor garganta
+      </label>
+      <label class="btn-primary form__symptom__option" ngbButtonLabel>
+        <input type="checkbox" formControlName="diarrea" ngbButton> Diarrea
+      </label>
+    </div>
+
+    <label>Estado</label>
+    <div class="btn-group-toggle form__state" ngbRadioGroup formControlName="state">
+      <label ngbButtonLabel class="btn-primary form__state__option">
+        <input ngbButton type="radio" [value]="covidState.positive"> Positivo
+      </label>
+      <label ngbButtonLabel class="btn-primary form__state__option">
+        <input ngbButton type="radio" [value]="covidState.negative"> Negativo
+      </label>
+      <label ngbButtonLabel class="btn-primary form__state__option">
+        <input ngbButton type="radio" [value]="covidState.suspect"> Sospechoso
+      </label>
+      <label ngbButtonLabel class="btn-primary form__state__option">
+        <input ngbButton type="radio" [value]="covidState.false"> Estoy sano
+      </label>
+    </div>
+
+    <label>Días</label>
+    <div>
+      <app-days-picker formControlName="days"></app-days-picker>
+    </div>
+  </form>
+</div>
+<div class="modal-actions">
+  <div class="modal-actions__button" (click)="save()">
+    <fa-icon class="mx-2 text-primary" [icon]="faSave" [size]="'2x'"></fa-icon>
+  </div>
+</div>
