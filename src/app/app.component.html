@@ -1,6 +1,16 @@
 <app-map></app-map>
-<div class="actions">
+<div class="actions actions--upper">
+  <button class="actions__button actions__button--long" (click)="getMyGPSLocation();">
+    <div class="actions__button__text">Version: Demo</div>
+  </button>
+  <a href="https://github.com/LuisReinoso/covid-19-community-tracker">
+  <button class="actions__button">
+    <div class="actions__button__text">Github</div>
+  </button>
+  </a>
+</div>
 
+<div class="actions">
   <ng-container *ngIf="isActionInProgress$ | async; else actionsTemplate">
     <button class="actions__button actions__button--long" (click)="getMyGPSLocation()">
       <fa-icon [icon]="faSpinner" [spin]="true"></fa-icon>
@@ -13,18 +23,16 @@
       </button>
       <button class="actions__button actions__button--long" (click)="checkProximity()">
         <fa-icon [icon]="faSyncAlt"></fa-icon>
-        <ng-container *ngIf="dataService.lastUpdate$ | async as lastUpdate">
-          <div class="last-update-date">{{ lastUpdate | amLocale:'es' | amTimeAgo }}</div>
-        </ng-container>
+        <div class="actions__button__text actions__button__text--left">Proximidad</div>
       </button>
       <button class="actions__button" (click)="panToMyLocation()">
         <fa-icon [icon]="faMapPin"></fa-icon>
       </button>
     </ng-container>
     <ng-template #requestLocationTemplate>
-      <button class="actions__button actions__button--long" (click)="getMyGPSLocation()">
+      <button class="actions__button actions__button--long" (click)="getMyGPSLocation();">
         <fa-icon [icon]="faCompass"></fa-icon>
-        <div class="actions__button__text">Obtener mi ubicación</div>
+        <div class="actions__button__text actions__button__text--left">Obtener mi ubicación</div>
       </button>
     </ng-template>
   </ng-template>

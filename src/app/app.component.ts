@@ -102,7 +102,7 @@ export class AppComponent implements OnInit {
         header: 'Proximidad',
         message: `Proximidad: ${proximity}`
       });
-    });
+    }, (error) => this.isActionInProgress$.next(false));
   }
 
   panToMyLocation() {
@@ -149,6 +149,8 @@ export class AppComponent implements OnInit {
         header: 'GPS',
         message
       });
+      this.panToMyLocation();
+      this.panToMyLocation();
     });
   }
 

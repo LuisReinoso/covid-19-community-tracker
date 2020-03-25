@@ -9,6 +9,11 @@
   align-items: center;
   justify-content: flex-end;
 
+  &--upper {
+    bottom: unset;
+    top: 40px;
+  }
+
   @media only screen and (max-width: 600px) {
     justify-content: center;
     max-width: unset;
@@ -32,8 +37,14 @@
     }
 
     &__text {
-      padding-left: 5px;
+      font-weight: bold;
+
+      &--left {
+        padding-left: 5px;
+      }
     }
+
+
   }
 }
 
