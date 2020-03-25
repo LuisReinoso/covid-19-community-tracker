@@ -1,8 +1,7 @@
 {
-  "rules": {
-    ".read": "false",
-    ".write": "false",
-    ".delete": "false",
-    ".update": "false"
-  }
-}
+  "rules":
+   {
+     ".read": false,
+     ".write": false
+   }
+ }
