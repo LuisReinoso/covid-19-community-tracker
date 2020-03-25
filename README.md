@@ -6,9 +6,7 @@ Check if you are near of suspected cases of covid-19. Self-report. No data is re
 </p>
 
 ## **Important**
-### **Data could be easy faked so use in own risk**
-
-Check remaining task
+### **Data could be easily faked so use in own risk**
 
 ## Features
 - No login required
@@ -66,7 +64,7 @@ export const environment = {
 
 ```
 
-- **env cloud functions **
+- **environment cloud functions**
 
 `environments.ts` file
 ``` javascript
@@ -83,8 +81,8 @@ export const environment = {
 
   `functions/src/index.ts`
 
-- By default is check 10km around
-- If more cases are founded so proximity is more
+- By default it's checking 10km around
+- If more cases are found so proximity is more
   ```
   - 0 -> far
   - [1, 4] -> warning
@@ -93,7 +91,7 @@ export const environment = {
 
 - **Database rules**
 
-  Remember block any operatation: 'read', 'update', 'delete', 'write'
+  Remember block any operation: 'read', 'update', 'delete', 'write'
 
 ## Development
 
@@ -117,10 +115,10 @@ npm run deploy
 ```
 
 ## Acknowledgment
-Thanks for people to contribuite with it's ideas/opinions.
+Thanks for people to contribute with it's ideas/opinions.
 
 ## Remaining tasks
-- Improve figerprint
+- Improve fingerprint
 - Improve GPS detector
 - Improve mobile detector
 - Add service workers
