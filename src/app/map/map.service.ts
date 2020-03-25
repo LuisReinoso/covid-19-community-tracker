@@ -42,6 +42,7 @@ export class MapService {
     if (this.location$.value) {
       this.map$.value.panTo(this.location$.value);
       this.map$.value.setZoom(15);
+      this.setMarker();
       return true;
     }
     return false;
@@ -55,7 +56,6 @@ export class MapService {
             lat: position.coords.latitude,
             lng: position.coords.longitude
           };
-          console.log('my location', location);
           this.location$.next(location);
           this.gpsWatcher.next('Ubicación cargada');
         },
@@ -83,15 +83,19 @@ export class MapService {
   }
 
   setProximityAnimation(proximity: string) {
+    this.setMarker();
+    const icon = this.marker.options.icon;
+    icon.options.className = proximity;
+    this.marker.setLatLng(new LatLng(this.location$.value.lat, this.location$.value.lng));
+    this.marker.setIcon(icon);
+  }
+
+  private setMarker() {
     if (!this.marker) {
       this.marker = marker([this.location$.value.lat, this.location$.value.lng]).addTo(
         this.map$.value
       );
     }
-    const icon = this.marker.options.icon;
-    icon.options.className = proximity;
-    this.marker.setLatLng(new LatLng(this.location$.value.lat, this.location$.value.lng));
-    this.marker.setIcon(icon);
   }
 
   private setupHeatLayer() {
