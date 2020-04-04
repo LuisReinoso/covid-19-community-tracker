@@ -1,20 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService, Metadata, CovidState } from './data.service';
-import {
-  faMapMarker,
-  faSyncAlt,
-  faMapPin,
-  faCompass,
-  faSpinner
-} from '@fortawesome/free-solid-svg-icons';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { DataModalComponent } from './data-modal/data-modal.component';
+import { AuthService } from './core/auth.service';
+import { UserService } from './core/user.service';
+import { faBars, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { Subscription } from 'rxjs';
 import { NotificationService } from './notification.service';
-import { GuidService } from './guid.service';
-import { MapService } from './map/map.service';
-import { ReplaySubject } from 'rxjs';
-import { environment } from 'src/environments/environment';
-import { CovidLocation } from 'functions/src';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -22,198 +12,55 @@ import { CovidLocation } from 'functions/src';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  faMapMarker = faMapMarker;
-  faSyncAlt = faSyncAlt;
-  faMapPin = faMapPin;
-  faCompass = faCompass;
-  faSpinner = faSpinner;
+  title = 'Covid community tracker';
+  faBars = faBars;
+  faArrowLeft = faArrowLeft;
+  isMenuOpen = false;
 
-  isActionInProgress$ = new ReplaySubject<boolean>();
+  private getUserFromDBSub: Subscription;
 
   constructor(
-    public dataService: DataService,
-    public mapService: MapService,
     public notificationService: NotificationService,
-    private modalService: NgbModal,
-    private guidService: GuidService
+    private authService: AuthService,
+    private userService: UserService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.guidService.fingerPrint$.subscribe(guid => this.dataService.setGUID(guid));
-    this.mapService.map.subscribe();
-    this.watchGPS();
-
-    if (!environment.production) {
-      this.mapService.testingPointWatcher$.subscribe((point: CovidLocation) => {
-        this.saveMyData(this.getMetatadaGenerator(), point);
-      });
-    }
-  }
-
-  uploadData() {
-    if (!this.isMobile()) {
-      return;
-    }
-
-    this.isActionInProgress$.next(true);
-    const modalRef = this.modalService.open(DataModalComponent, { centered: true });
-    if (this.dataService.hasLocalData()) {
-      modalRef.componentInstance.data = this.dataService.getLocalData();
-    }
-    modalRef.result
-      .then((metadata: Metadata) => {
-        if (this.dataService.hasLocalData()) {
-          this.updateMyData(metadata);
-          return;
-        }
-        if (this.mapService.location$.value) {
-          this.saveMyData(metadata);
+    this.authService.getDataFromFirebase().subscribe(
+      auth => {
+        console.log('auth!!', auth);
+        if (auth) {
+          this.getUserFromDBSub = this.userService
+            .getUserFromDB(auth.uid)
+            .valueChanges()
+            .subscribe(
+              user => {
+                if (user) {
+                  console.log('Authenticated');
+                  this.userService.user = user;
+                  console.log('this.userService.user', this.userService.user);
+                  this.authService.setUserData(this.userService.user);
+                  this.router.navigate(['map']);
+                } else {
+                  console.warn('User is null', user);
+                }
+              },
+              error => console.error(error)
+            );
         } else {
-          this.mapService.getMyGPSLocation();
+          if (this.getUserFromDBSub) {
+            this.getUserFromDBSub.unsubscribe();
+          }
+          console.log('Not authenticated');
+          localStorage.setItem('user', null);
         }
-      })
-      .catch(() => this.isActionInProgress$.next(false));
-  }
-
-  checkProximity() {
-    if (!this.isMobile()) {
-      return;
-    }
-
-    this.isActionInProgress$.next(true);
-    this.dataService.getProximity(this.mapService.location$.value).subscribe((position: {proximity: string}) => {
-      this.mapService.setProximityAnimation(position.proximity);
-      let proximity = 'lejos';
-      switch (position.proximity) {
-        case 'near':
-          proximity = 'cerca';
-          break;
-        case 'warning':
-          proximity = 'precaución';
-          break;
-        case 'far':
-          proximity = 'lejos';
-          break;
-        default:
-          break;
-      }
-      this.isActionInProgress$.next(false);
-      this.notificationService.showNotification({
-        header: 'Proximidad',
-        message: `Proximidad: ${proximity}`
-      });
-    }, (error) => this.isActionInProgress$.next(false));
-  }
-
-  panToMyLocation() {
-    if (!this.isMobile()) {
-      return;
-    }
-
-    if (this.mapService.panToMyLocation()) {
-      this.notificationService.showNotification({
-        header: 'Geolocalizacón',
-        message: 'Cargado tu ubicación actual'
-      });
-    } else {
-      this.notificationService.showNotification({
-        header: 'Geolocalizacón',
-        message: 'Error activa tu GPS'
-      });
-    }
-  }
-
-  getMyGPSLocation() {
-    if (!this.isMobile()) {
-      return;
-    }
-    this.mapService.getMyGPSLocation();
-  }
-
-  private isMobile() {
-    // TODO: Improve check if is mobile
-    const isMobile =
-      'ontouchstart' in document.documentElement && navigator.userAgent.match(/Mobi/);
-    if (!isMobile) {
-      this.notificationService.showNotification({
-        header: 'Telefono no dectectado',
-        message: 'Por favor abre esta aplicación en el telefono'
-      });
-    }
-    return isMobile;
-  }
-
-  private watchGPS() {
-    this.mapService.gpsWatcher$.subscribe(message => {
-      this.notificationService.notification$.next({
-        header: 'GPS',
-        message
-      });
-      this.panToMyLocation();
-      this.panToMyLocation();
-    });
-  }
-
-  private saveMyData(metadata: Metadata, point?: CovidLocation) {
-    this.dataService
-      .createCovidData(
-        !environment.production && point ? point : this.mapService.location$.value,
-        metadata,
-        !environment.production ? Math.random().toString() : this.guidService.fingerPrint$.value
-      )
-      .subscribe(
-        () => {
-          this.dataService.saveLocalData({
-            location: this.mapService.location$.value,
-            metadata
-          });
-          this.notificationService.showNotification({
-            header: 'Datos',
-            message: 'Tus datos fueron almacenados'
-          });
-        },
-        err => {
-          this.notificationService.showNotification({
-            header: 'Datos',
-            message: 'Ocurrió un error al almacenar los datos'
-          });
-          console.log(err);
-          this.isActionInProgress$.next(false);
-        },
-        () => this.isActionInProgress$.next(false)
-      );
-  }
-
-  private updateMyData(metadata: Metadata) {
-    this.dataService.updateCovidData(metadata).subscribe(
-      () =>
-        this.notificationService.showNotification({
-          header: 'Datos',
-          message: 'Tus datos fueron actualizados'
-        }),
-      err => {
-        this.notificationService.showNotification({
-          header: 'Datos',
-          message: 'Ocurrió un error al actualizar tus datos'
-        });
-        this.isActionInProgress$.next(false);
-        console.error(err);
       },
-      () => this.isActionInProgress$.next(false)
+      error => console.error(error)
     );
   }
 
-  private getMetatadaGenerator(): Metadata {
-    return {
-      fiebre: true,
-      cansancio: false,
-      tosSeca: false,
-      congestionNasal: false,
-      rinorrea: false,
-      dolorGarganta: true,
-      diarrea: false,
-      days: 4,
-      state: CovidState.positive
-    };
+  switchMenuState() {
+    this.isMenuOpen = !this.isMenuOpen;
   }
 }

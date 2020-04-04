@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { faSave } from '@fortawesome/free-solid-svg-icons';
 import { FormBuilder } from '@angular/forms';
-import { CovidData, CovidState } from '../data.service';
+import { CovidData, CovidState } from '../../../data.service';
 
 @Component({
   selector: 'app-data-modal',
@@ -36,9 +36,9 @@ export class DataModalComponent implements OnInit {
   ngOnInit() {
     if (this.data?.metadata) {
       const data = this.data.metadata;
-      delete data['id'];
-      delete data['createdAt'];
-      delete data['updatedAt'];
+      delete (data as any).id;
+      delete (data as any).createdAt;
+      delete (data as any).updatedAt;
       this.form.setValue(data);
     }
   }

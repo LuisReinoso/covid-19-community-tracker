@@ -1,0 +1,61 @@
+<div class="bg-register row d-flex align-items-center justify-content-center">
+    <div class="card col-lg-4 col-md-5 col-sm-7 col-10 mx-3 px-0 border-0">
+        <h3 class="card-header header-card">Registro</h3>
+        <div class="card-body body-card">
+            <form *ngIf="registerForm" [formGroup]="registerForm" novalidate>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Nombre" formControlName="displayName" maxlength="70" title="Nombre" autocomplete="username"
+                    [ngClass]="{'is-invalid': registerForm.get('displayName').touched && registerForm.get('displayName').hasError('required')}">
+                    <div class="text-danger" *ngIf="!registerForm.get('displayName').valid && registerForm.get('displayName').touched">
+                        Nombre requerido
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" formControlName="email" placeholder="Correo" maxlength="70" title="Correo" autocomplete="username"
+                     [ngClass]="{'is-invalid': registerForm.get('email').touched && registerForm.get('email').hasError('required') || registerForm.get('email').hasError('email')}">
+                    <div class="text-danger" *ngIf="registerForm.get('email').touched && registerForm.get('email').hasError('required')">
+                        Email requerido
+                    </div>
+                    <div class="text-danger" *ngIf="registerForm.get('email').touched && registerForm.get('email').hasError('email')">
+                        Ingresar un email valido.
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input type="password" class="form-control" placeholder="Contraseña" formControlName="password" minlength="6" maxlength="20" title="Contraseña" autocomplete="current-password"
+                    [ngClass]="{'is-invalid': registerForm.get('password').touched && registerForm.get('password').hasError('required')}">
+                    <div class="text-danger" *ngIf="!registerForm.get('password').valid && registerForm.get('password').touched">
+                        Contraseña requerido
+                    </div>
+                </div>
+
+                <div class="text-danger">
+                    {{errorMessage}}
+                </div>
+
+                <button class="btn btn-primary mt-2 w-100" type="submit" (click)="registerEmailPassword()">
+                    <loading-spinner *ngIf="isLoading"></loading-spinner>
+                    Registrar
+                </button>
+                <div class="row my-2">
+                    <div class="col-5"><hr></div>
+                    <div class="col-2 d-flex align-items-center justify-content-center">o</div>
+                    <div class="col-5"><hr></div>
+                </div>
+                <button class="btn btn-google btn-google__container" type="button" (click)="registerWithGoogle()">
+                    <div class="btn-google__img-container">
+                        <img class="btn-google__img" src="assets/login/icono-google.png" alt="Icono de google">
+                    </div>
+                    <div class="btn-google__text">Acceder con Google</div>
+                </button>
+
+               <!--  <button class="btn btn-facebook btn-facebook__container" type="button" (click)="registerWithFacebook()">
+                    <div class="btn-facebook__img-container">
+                        <img class="btn-facebook__img" src="assets/login/icono-face.png" alt="Icono de facebook">
+                    </div>
+                    <div class="btn-facebook__text">Acceder con Facebook</div>
+                </button> -->
+            </form>
+        </div>
+    </div>
+</div>

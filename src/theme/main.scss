@@ -1,1 +1,118 @@
 @import "~bootstrap/scss/bootstrap";
+@import 'src/theme/colors';
+@import 'src/theme/breakpoints';
+@import 'src/theme/z-index';
+
+$purple: #660066 !default;
+$blue: $color-blue !default;
+$green: #09CA05 !default;
+
+
+.text-blue {
+  color: $blue;
+}
+
+.text-green {
+  color: $green;
+}
+
+
+.flex-basis-100 {
+  flex-basis: 100%;
+}
+
+.line-height-0 {
+  line-height: 0;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.font-size-08 {
+  font-size: 0.8rem;
+}
+
+.font-size-1 {
+  font-size: 1.0rem;
+}
+
+.font-size-15 {
+  font-size: 1.5rem;
+}
+
+.font-size-2 {
+  font-size: 2rem;
+}
+
+.modal-content {
+  border: unset !important;
+}
+
+.outline-none {
+  outline: none !important;
+}
+
+.pr-40 {
+  padding-right: 40px;
+}
+
+.line {
+  border: 1px solid #dadfe0;
+  margin: 8px 0px;
+}
+
+.body {
+  background-color: $color-gray;
+}
+
+.btn-google, .btn-facebook {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem 0px;
+  background-color: #FFFFFF;
+
+  &__container {
+    height: 40px;
+    padding: 0px 8px;
+    display: flex;
+    align-items: center;
+  }
+
+  &__img-container {
+    width: 25px;
+    height: 25px;
+    display: flex;
+
+    margin: 0px 0px 0px 2rem;
+    @include lt-md {
+      margin: 0px 0px 0px 0.5rem;
+    }
+    align-items: center;
+  }
+
+  &__img {
+    width: 100%;
+    height: 100%;
+  }
+
+  &__text {
+    font-family: 'Roboto-Medium';
+    padding-left: 24px;
+    font-size: 16px;
+    width: 200px;
+    @include lt-md {
+      padding-left: 12px;
+      font-size: 14px;
+      width: 160px;
+    }
+    color: gray;
+    display: flex;
+    align-items: center;
+  }
+}
+
+@import "~bootstrap/scss/_functions";
+@import "~bootstrap/scss/_variables";

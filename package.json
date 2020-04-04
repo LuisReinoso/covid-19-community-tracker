@@ -35,6 +35,7 @@
     "leaflet": "^1.6.0",
     "leaflet-heat-es": "^0.2.1",
     "moment": "^2.24.0",
+    "ng-sidebar": "^9.2.0",
     "ngx-moment": "^3.5.0",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
