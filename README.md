@@ -1,19 +1,36 @@
 # Covid 19 Community Tracker
-Check if you are near of suspected cases of covid-19. Self-report. No data is revealed.
+Check if you are near of suspected cases of covid-19. No sensible data is revealed.
 
 <p align="center">
     <img alt="main page" style="text-align:center;" src="img/main.png" alt="main" width="500"/>
 </p>
 
-## **Important**
-### **Data could be easily faked so use in own risk**
-
 ## Features
-- No login required
-- Self-report
-- One device - One location (Actually is dependent of browser). PR is needed
-- User just check if they are near of this points.
-- No data is revealed.
+
+### User
+- Login required.
+- Suggest location of vulnerable people.
+- Self-report about it health.
+- Subscription to volunteers list.
+- Food stores queue. 
+- Check if they are near of this points possible covid focus.
+- No sensible data is revealed.
+
+### Admin
+- Add possible covid focus.
+- Add vulnerable people.
+- Add food stores.
+- Dashboard that show data:
+  - suspected cases.
+  - suggestions of vulnerable people.
+  - subscriptions 
+    - request food at home.
+    - volunteer.
+    - vulnerable people.
+
+- Layers
+  - Heatmap layer.
+  - Markers layer.
 
 ## [DEMO: Click here!](https://community-tracker-covid-19.firebaseapp.com/)
 
@@ -31,13 +48,16 @@ Check if you are near of suspected cases of covid-19. Self-report. No data is re
 
 ## Setup
 
-Setup firebase:
+Now all required files has its template for more easy setup
 
+Setup firebase:
 ```
 firebase init
 ```
 
-Setup environment:
+**Frontend**
+
+Setup environment in `src/environments/environment.ts`. Check the template for reference:
 
 ``` javascript
 export const environment = {
@@ -64,9 +84,10 @@ export const environment = {
 
 ```
 
-- **environment cloud functions**
+**Cloud functions**
 
-`environments.ts` file
+Setup environment in `functions/credentials/environments.ts`. Check the template for reference:
+
 ``` javascript
 export const environment = {
   firebase: {
@@ -77,9 +98,27 @@ export const environment = {
 }
 ```
 
-- **proximity checker**
+[Setup Firebase AdminSDK](https://firebase.google.com/docs/admin/setup) file in `functions/credentials/credentials.json`. Check the template for reference:
 
-  `functions/src/index.ts`
+```JSON
+{
+  "type": "",
+  "project_id": "",
+  "private_key_id": "",
+  "private_key": "",
+  "client_email": "f",
+  "client_id": "",
+  "auth_uri": "",
+  "token_uri": "",
+  "auth_provider_x509_cert_url": "",
+  "client_x509_cert_url": ""
+}
+
+```
+
+**Proximity checker**
+
+You can customize the proximity checker algorithm in `functions/src/index.ts`
 
 - By default it's checking 10km around
 - If more cases are found so proximity is more
@@ -89,7 +128,7 @@ export const environment = {
   - [5, ...] -> near
   ```
 
-- **Database rules**
+**Database rules**
 
   Remember block any operation: 'read', 'update', 'delete', 'write'
 
@@ -116,12 +155,6 @@ npm run deploy
 
 ## Acknowledgment
 Thanks for people to contribute with it's ideas/opinions.
-
-## Remaining tasks
-- Improve fingerprint
-- Improve GPS detector
-- Improve mobile detector
-- Add service workers
 
 ## Licence
 Luis Reinoso [MIT LICENCE](LICENCE)

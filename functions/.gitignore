@@ -6,4 +6,5 @@
 typings/
 
 node_modules/
-credentials/
+credentials/credentials.json
+credentials/environments.ts
