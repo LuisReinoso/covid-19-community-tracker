@@ -1,0 +1,49 @@
+<nav class="navbar navbar-expand navbar-dark bg-menu d-flex border-0">
+  <ng-container *ngIf="authService.userData$ | async as userData; else navWithoutUserTemplate">
+      <div class="d-gt-xs-none">
+        <ng-content></ng-content>
+      </div>
+      <div class="nav navbar-nav d-lt-sm-none">
+          <div class="logo-container">
+              <img class="logo" src="assets/logo/logo.png" alt="Covid community tracker icon">
+          </div>
+          <div class="nav-item" routerLink="/volunteering" routerLinkActive="active">
+              <a class="nav-link">Voluntariado</a>
+          </div>
+          <div class="nav-item" routerLink="/suggest-map-points" routerLinkActive="active">
+              <a class="nav-link">Mapear</a>
+          </div>
+          <div class="nav-item" routerLink="/food" routerLinkActive="active">
+            <a class="nav-link">Alimentación</a>
+          </div>
+          <div class="nav-item" routerLink="/request-services" routerLinkActive="active">
+            <a class="nav-link">Servicios</a>
+          </div>
+      </div>
+      <div class="nav navbar-nav ml-auto">
+          <div class="nav-item">
+            <a class="nav-link">{{ userData.displayName }}</a>
+          </div>
+          <div class="nav-item">
+            <a class="nav-link" routerLinkActive="active" (click)="logout()">
+              <fa-icon [icon]="faSingOut"></fa-icon> Salir
+            </a>
+          </div>
+      </div>
+  </ng-container>
+  <ng-template #navWithoutUserTemplate>
+      <div class="nav navbar-nav">
+        <div class="logo-container">
+          <img class="logo" src="assets/logo/logo.png" alt="Covid community tracker icon">
+        </div>
+      </div>
+      <div class="nav navbar-nav ml-auto">
+        <div class="nav-item">
+          <a class="nav-link" routerLink="/register" routerLinkActive="active">Registrar</a>
+        </div>
+        <div class="nav-item">
+          <a class="nav-link" routerLink="/login" routerLinkActive="active">Login</a>
+        </div>
+      </div>
+  </ng-template>
+</nav>

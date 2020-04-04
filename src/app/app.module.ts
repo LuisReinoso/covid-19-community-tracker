@@ -1,34 +1,32 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireModule } from '@angular/fire';
+import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { LeafletModule } from '@asymmetrik/ngx-leaflet';
-import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { environment } from 'src/environments/environment';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ReactiveFormsModule } from '@angular/forms';
-import { DataModalComponent } from './data-modal/data-modal.component';
-import { DaysPickerComponent } from './days-picker/days-picker.component';
-import { MomentModule } from 'ngx-moment';
-import { MapComponent } from './map/map.component';
+import { CoreModule } from './core/core.module';
+import { UiModule } from './ui/ui.module';
+import { AppRoutingModule } from './app-routing.module';
+import { SidebarModule } from 'ng-sidebar';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { NgbToastModule, NgbRadio, NgbRadioGroup } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
-  declarations: [AppComponent, DataModalComponent, DaysPickerComponent, MapComponent],
+  declarations: [AppComponent],
   imports: [
     AngularFireModule.initializeApp(environment.firebase, 'community-tracker-covid'),
+    AngularFirestoreModule,
     BrowserModule,
-    HttpClientModule,
-    LeafletModule,
-    FontAwesomeModule,
-    ReactiveFormsModule,
-    MomentModule,
-    NgbModule
+    CoreModule,
+    UiModule,
+    NgbToastModule,
+    SidebarModule.forRoot(),
+    AppRoutingModule
   ],
-  providers: [],
+  providers: [AngularFireAuth, AngularFireAuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

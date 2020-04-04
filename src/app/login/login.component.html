@@ -1,0 +1,60 @@
+<div class="bg-login row d-flex align-items-center justify-content-center">
+    <div class="card col-lg-4 col-md-5 col-sm-7 col-10 mx-3 px-0 border-0">
+        <h3 class="card-header header-card">Iniciar Sesión</h3>
+        <div class="card-body body-card">
+            <form *ngIf="loginForm" [formGroup]="loginForm" (ngSubmit)="login()">
+                <div class="form-group">
+                    <input type="text" class="form-control" formControlName="email" placeholder="Usuario" maxlength="70" title="Correo" autocomplete="username"
+                     [ngClass]="{'is-invalid': loginForm.get('email').touched && loginForm.get('email').hasError('required') || loginForm.get('email').hasError('email')}">
+                    <div class="text-danger" *ngIf="loginForm.get('email').touched && loginForm.get('email').hasError('required')">
+                        Usuario requerido
+                    </div>
+                    <div class="text-danger" *ngIf="loginForm.get('email').touched && loginForm.get('email').hasError('email')">
+                        Ingresar un email valido.
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input type="password" class="form-control" placeholder="Contraseña" formControlName="password" title="Contraseña" autocomplete="current-password"
+                    [ngClass]="{'is-invalid': loginForm.get('password').touched && loginForm.get('password').hasError('required')}">
+                    <div class="text-danger" *ngIf="!loginForm.get('password').valid && loginForm.get('password').touched">
+                        Contraseña requerido
+                    </div>
+                </div>
+                <div class="text-danger">
+                    {{errorMessage}}
+                </div>
+                <button class="btn btn-primary mt-2 w-100" type="submit">
+                    <loading-spinner *ngIf="isLoading"></loading-spinner>
+                    Login
+                </button>
+                <div class="row my-2">
+                    <div class="col-5"><hr></div>
+                    <div class="col-2 d-flex justify-content-center align-items-center">o</div>
+                    <div class="col-5"><hr></div>
+                </div>
+                <button class="btn btn-google btn-google__container" type="button" (click)="loginWithGoogle()">
+                    <div class="btn-google__img-container">
+                        <img class="btn-google__img" src="assets/login/icono-google.png" alt="Icono de google">
+                    </div>
+                    <div class="btn-google__text">Acceder con Google</div>
+                </button>
+
+                <!-- <button class="btn btn-facebook btn-facebook__container" type="button" (click)="loginWithFacebook()">
+                    <div class="btn-facebook__img-container">
+                        <img class="btn-facebook__img" src="assets/login/icono-face.png" alt="Icono de facebook">
+                    </div>
+                    <div class="btn-facebook__text">Acceder con Facebook</div>
+                </button> -->
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="credits">
+    Made with <fa-icon [icon]="faHeart" [size]="'lg'" class="credits__heart"></fa-icon>
+    by
+    <a class="credits__name" href="https://twitter.com/luisreinosodev">Luis Reinoso</a>
+    and
+    <a class="credits__name" href="#">Ana Castillo</a>
+</div>

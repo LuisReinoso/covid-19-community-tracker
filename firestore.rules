@@ -12,6 +12,7 @@ service cloud.firestore {
     // your app will lose access to your Firestore database
     match /{document=**} {
       allow read, write, update, delete: if false;
+      allow read, write: if request.auth != null;
     }
   }
 }

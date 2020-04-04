@@ -10,7 +10,7 @@ import {
   icon,
   Marker
 } from 'leaflet';
-import { MapService } from './map.service';
+import { MapService } from '../../map.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -46,6 +46,7 @@ export class MapComponent implements OnInit {
   constructor(private mapService: MapService) {}
 
   onMapReady(map: Map) {
+    console.log('onMapReady', map);
     this.mapService.setMap(map);
   }
 

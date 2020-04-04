@@ -1,42 +1,26 @@
-<app-map></app-map>
-<div class="actions actions--upper">
-  <button class="actions__button actions__button--long">
-    <div class="actions__button__text">Versión: Demo</div>
-  </button>
-  <a href="https://github.com/LuisReinoso/covid-19-community-tracker">
-  <button class="actions__button">
-    <div class="actions__button__text">Github</div>
-  </button>
-  </a>
-</div>
-
-<div class="actions">
-  <ng-container *ngIf="isActionInProgress$ | async; else actionsTemplate">
-    <button class="actions__button actions__button--long" (click)="getMyGPSLocation()">
-      <fa-icon [icon]="faSpinner" [spin]="true"></fa-icon>
-    </button>
-  </ng-container>
-  <ng-template #actionsTemplate>
-    <ng-container *ngIf="mapService.location$ | async; else requestLocationTemplate">
-      <button class="actions__button" (click)="uploadData()">
-        <fa-icon [icon]="faMapMarker"></fa-icon>
-      </button>
-      <button class="actions__button actions__button--long" (click)="checkProximity()">
-        <fa-icon [icon]="faSyncAlt"></fa-icon>
-        <div class="actions__button__text actions__button__text--left">Proximidad</div>
-      </button>
-      <button class="actions__button" (click)="panToMyLocation()">
-        <fa-icon [icon]="faMapPin"></fa-icon>
-      </button>
-    </ng-container>
-    <ng-template #requestLocationTemplate>
-      <button class="actions__button actions__button--long" (click)="getMyGPSLocation();">
-        <fa-icon [icon]="faCompass"></fa-icon>
-        <div class="actions__button__text actions__button__text--left">Obtener mi ubicación</div>
-      </button>
-    </ng-template>
-  </ng-template>
-</div>
+<ng-sidebar-container class="sidebar">
+  <ng-sidebar class="sidebar__menu"
+    [showBackdrop]="isMenuOpen"
+    [closeOnClickBackdrop]="true"
+    [(opened)]="isMenuOpen"
+    [mode]="'over'"
+    [keyClose]="true"
+    (swipeleft)="switchMenuState()">
+    <app-side-nav (clickOnLink)="switchMenuState()">
+      <fa-icon (click)="switchMenuState()" [icon]="faArrowLeft"></fa-icon>
+    </app-side-nav>
+  </ng-sidebar>
+  <div class="sidebar-content" ng-sidebar-content>
+    <div class="content">
+      <main-nav>
+        <button class="sidebar__button" (click)="switchMenuState()">
+          <fa-icon [icon]="faBars"></fa-icon>
+        </button>
+      </main-nav>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</ng-sidebar-container>
 <div class="notification" *ngIf="notificationService.notification$ | async as notification">
   <ngb-toast
     [header]="notification.header"

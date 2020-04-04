@@ -1,0 +1,15 @@
+@import "src/theme/colors";
+@import "src/theme/nav-bar";
+
+.bg-register {
+  height: calc(100vh - #{$nav-bar-height});
+  width: 100%;
+  position: absolute;
+  margin: unset;
+}
+
+.header-card {
+  width: 100%;
+  font-weight: bold;
+  text-align: center;
+}

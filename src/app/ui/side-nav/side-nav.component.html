@@ -1,0 +1,85 @@
+<ng-container *ngIf="authService.userData$ | async as userData; else navWithoutUserTemplate">
+  <div class="nav navbar-nav side-nav__header">
+    <div class="side-nav__header__back-button">
+      <ng-content></ng-content>
+    </div>
+    <div class="d-flex align-items-center justify-content-center">
+      <div class="logo-container">
+        <img class="logo-img mt-1" src="assets/logo/logo.png" alt="Covid community tracker icon">
+      </div>
+    </div>
+    <div class="nav-item mt-2">
+      <h4 class="user-name">{{ userData.displayName }}</h4>
+    </div>
+  </div>
+  <div class="nav navbar-nav side-nav__content px-3 py-1">
+    <div class="nav-item">
+        <a class="nav-link outline-none" (click)="clickOnLink.emit(true)" routerLink="/map" routerLinkActive="active">
+          <span class="icon"><fa-icon [icon]="faBook"></fa-icon></span>
+          <span>Proximidad</span>
+        </a>
+    </div>
+    <div class="nav-item">
+        <a class="nav-link outline-none" (click)="clickOnLink.emit(true)" routerLink="/food" routerLinkActive="active">
+          <span class="icon"><fa-icon [icon]="faBook"></fa-icon></span>
+          <span>Comida</span>
+        </a>
+    </div>
+    <div class="nav-item">
+        <a class="nav-link outline-none" (click)="clickOnLink.emit(true)" routerLink="/request-services" routerLinkActive="active">
+          <span class="icon"><fa-icon [icon]="faBook"></fa-icon></span>
+          <span>Servicios</span>
+        </a>
+    </div>
+    <div class="nav-item">
+        <a class="nav-link outline-none" (click)="clickOnLink.emit(true)" routerLink="/volunteering" routerLinkActive="active">
+          <span class="icon"><fa-icon [icon]="faBook"></fa-icon></span>
+          <span>Voluntariado</span>
+        </a>
+    </div>
+    <div class="nav-item">
+        <a class="nav-link outline-none" (click)="clickOnLink.emit(true)" routerLink="/suggest-map-points" routerLinkActive="active">
+          <span class="icon"><fa-icon [icon]="faBook"></fa-icon></span>
+          <span>Mapear</span>
+        </a>
+    </div>
+    <div class="nav-item">
+        <a class="nav-link outline-none" (click)="clickOnLink.emit(true)" routerLink="/subscriptions" routerLinkActive="active">
+          <span class="icon"><fa-icon [icon]="faBook"></fa-icon></span>
+          <span>Suscripciones</span>
+        </a>
+    </div>
+    <hr class="w-100">
+    <div class="nav-item">
+      <a class="nav-link outline-none" (click)="clickOnLink.emit(true)" routerLink="/edit-profile" routerLinkActive="active">
+        <span class="icon"><fa-icon [icon]="faUserEdit"></fa-icon></span>
+        <span>Perfil</span>
+      </a>
+    </div>
+    <div class="nav-item">
+      <a class="nav-link outline-none text-danger" routerLinkActive="active" (click)="clickOnLink.emit(true); logout()">
+        <span class="icon"><fa-icon [icon]="faSingOut"></fa-icon></span>
+        <span>Salir</span>
+      </a>
+    </div>
+  </div>
+</ng-container>
+<ng-template #navWithoutUserTemplate>
+  <div class="nav navbar-nav side-nav__header">
+    <div>
+      <img class="logo" src="assets/logo/logo.png" alt="Covid community tracker icon">
+    </div>
+  </div>
+  <div class="nav navbar-nav side-nav__content ml-auto">
+    <div class="nav-item">
+      <a class="nav-link outline-none w-100" routerLink="/register" routerLinkActive="active">
+        Registrar
+      </a>
+    </div>
+    <div class="nav-item">
+      <a class="nav-link outline-none" routerLink="/login" routerLinkActive="active">
+        Login
+      </a>
+    </div>
+  </div>
+</ng-template>
