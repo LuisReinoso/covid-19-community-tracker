@@ -23,13 +23,13 @@ export class MapComponent implements OnInit {
     layers: [
       tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         opacity: 0.7,
-        maxZoom: 18,
+        maxZoom: 17,
         detectRetina: true,
         attribution:
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       })
     ],
-    zoom: 7,
+    zoom: 16,
     center: latLng(environment.countryCenter.center.lat, environment.countryCenter.center.lng),
     maxBounds: new LatLngBounds(
       new LatLng(environment.countryBounds.point1.lat, environment.countryBounds.point1.lng),
