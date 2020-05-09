@@ -17,9 +17,10 @@ Check if you are near of suspected cases of covid-19. No sensible data is reveal
 - No sensible data is revealed.
 
 ### Admin
-- Add possible covid focus.
-- Add vulnerable people.
-- Add food stores.
+- Admin functions
+  - Add possible covid focus.
+  - Add vulnerable people.
+  - Add food stores.
 - Dashboard that show data:
   - suspected cases.
   - suggestions of vulnerable people.
@@ -86,32 +87,29 @@ export const environment = {
 
 **Cloud functions**
 
-Setup environment in `functions/credentials/environments.ts`. Check the template for reference:
+Setup environment in `functions/env.json`.
 
-``` javascript
-export const environment = {
-  firebase: {
-    databaseURL: 'https://myapp.firebaseio.com',
-    appURL: 'https://myapp.firebaseapp.com',
-    serviceAccountPath: '../credentials/serviceAccountAdminSKD.json'
-  }
-}
-```
+[Setup Firebase AdminSDK](https://firebase.google.com/docs/admin/setup) file in `functions/env.json`:`serviceAccount`.
 
-[Setup Firebase AdminSDK](https://firebase.google.com/docs/admin/setup) file in `functions/credentials/credentials.json`. Check the template for reference:
-
+Check the template for reference:
 ```JSON
 {
-  "type": "",
-  "project_id": "",
-  "private_key_id": "",
-  "private_key": "",
-  "client_email": "f",
-  "client_id": "",
-  "auth_uri": "",
-  "token_uri": "",
-  "auth_provider_x509_cert_url": "",
-  "client_x509_cert_url": ""
+  "serviceAccount": {
+    "type": "",
+    "project_id": "",
+    "private_key_id": "",
+    "private_key": "",
+    "client_email": "",
+    "client_id": "",
+    "auth_uri": "",
+    "token_uri": "",
+    "auth_provider_x509_cert_url": "",
+    "client_x509_cert_url": ""
+  },
+  "firebase": {
+    "databaseURL": "",
+    "appURL": ""
+  }
 }
 
 ```

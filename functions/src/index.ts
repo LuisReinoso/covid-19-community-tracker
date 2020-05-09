@@ -1,6 +1,5 @@
 import * as functions from 'firebase-functions';
-import { environment } from '../credentials/environments';
-
+const environment = functions.config().env;
 const whitelist = [
   environment.firebase.appURL,
   environment.firebase.databaseURL
@@ -14,11 +13,10 @@ const corsOptionsDelegate = function(req: any, callback: any) {
   }
   callback(null, corsOptions); // callback expects two parameters: error and options
 };
-const serviceAccount = require(environment.firebase.serviceAccountPath);
 
 const admin = require('firebase-admin');
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
+  credential: admin.credential.cert(environment.serviceAccount),
   databaseURL: 'https://community-tracker-covid-19.firebaseio.com'
 });
 

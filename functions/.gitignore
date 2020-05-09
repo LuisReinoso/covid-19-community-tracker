@@ -6,6 +6,5 @@
 typings/
 
 node_modules/
-credentials/credentials.json
-credentials/environments.ts
-credentials/community-tracker-covid-19-firebase-adminsdk-6rm0b-d679ec9ad1.json
+env.json
+lib/
