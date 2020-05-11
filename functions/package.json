@@ -4,11 +4,14 @@
     "lint": "tslint --project tsconfig.json",
     "clean": "npx rimraf ./lib",
     "build": "npm run clean && tsc",
-    "serve": "npm run build && firebase emulators:start --only functions",
-    "shell": "npm run build && firebase functions:shell",
+    "serve": "npm run env && npm run build && firebase emulators:start --only functions,database,firestore --import=./dev-data",
+    "shell": "npm run env && npm run build && firebase functions:shell",
     "start": "npm run shell",
-    "env": "test -f env.json && firebase functions:config:unset env && firebase functions:config:set env=\"$(cat env.json)\" || echo \"Please add the file env.json before deploy.\"",
-    "deploy": "npm run env && npm run build && firebase deploy --only functions",
+    "env": "npm run setup && firebase functions:config:get > .runtimeconfig.json || firebase functions:config:get | ac .runtimeconfig.json",
+    "setup": "test -f env.json && firebase functions:config:unset env && firebase functions:config:set env=\"$(cat env.json)\" || echo \"Please add the file env.json before deploy.\"",
+    "env:prod": "npm run setup:prod && firebase functions:config:get > .runtimeconfig.json || firebase functions:config:get | ac .runtimeconfig.json",
+    "setup:prod": "test -f env-prod.json && firebase functions:config:unset env && firebase functions:config:set env=\"$(cat env-prod.json)\" || echo \"Please add the file env-prod.json before deploy.\"",
+    "deploy": "npm run env:prod && npm run build && firebase deploy --only functions",
     "logs": "firebase functions:log"
   },
   "engines": {

@@ -53,3 +53,5 @@ Thumbs.db
 **/src/environments/environment.ts
 
 #.firebaserc
+database-debug.log
+firestore-debug.log

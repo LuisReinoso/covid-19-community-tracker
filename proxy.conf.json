@@ -1,0 +1,8 @@
+{
+  "/community-tracker-covid-19/us-central1/*": {
+    "target": "http://localhost:5001",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  }
+}

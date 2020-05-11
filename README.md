@@ -58,38 +58,44 @@ firebase init
 
 **Frontend**
 
-Setup environment in `src/environments/environment.ts`. Check the template for reference:
+Setup environment in `src/environments/environment.ts` for development purpose.
+Setup environment in `src/environments/environment.prod.ts` for production purpose.
 
+[GUID random generator](https://duckduckgo.com/?q=generate+GUID&ia=answer)
+
+Check the template for reference:
 ``` javascript
 export const environment = {
-  production: true,
+  production: false,
   firebase: {
     apiKey: '',
     authDomain: '',
-    databaseURL: '',
+    databaseURL: 'http://localhost:9000',
+    appURL: 'https://localhost:4200',
     projectId: '',
-    storageBucket: '',
+    storageBucket: 'http://localhost:8080',
     messagingSenderId: '',
     appId: ''
   },
-  namespace: 'sdjskaldjsakldjsakdldsajlkdjsalk', // valid GUID
-  api: 'https://mycloudfunctionsapi.com',
+  namespace: 'b4bfb9fd-2e9b-40e6-afcd-81ac1699eb9d', // copy valid GUID from above GUID random generator
+  api: 'http://localhost:5001/community-tracker-covid-19/us-central1', // <-- replace with functions location
   countryBounds: {
     point1: { lat: 2.37928, lng: -92.69996 },
     point2: { lat: -5.41915, lng: -75.10254 }
   },
   countryCenter: {
     center: { lat: -1.36218, lng: -78.37646 }
-  }
+  },
 };
 
 ```
 
 **Cloud functions**
 
-Setup environment in `functions/env.json`.
+Setup environment in `functions/env.json` for development purpose.
+Setup environment in `functions/env-prod.json` for production purpose.
 
-[Setup Firebase AdminSDK](https://firebase.google.com/docs/admin/setup) file in `functions/env.json`:`serviceAccount`.
+[Setup Firebase AdminSDK](https://firebase.google.com/docs/admin/setup) file in `functions/env.json` : `serviceAccount`.
 
 Check the template for reference:
 ```JSON
@@ -107,8 +113,8 @@ Check the template for reference:
     "client_x509_cert_url": ""
   },
   "firebase": {
-    "databaseURL": "",
-    "appURL": ""
+    "databaseURL": "http://localhost:9000", // for dev
+    "appURL": "http://localhost:4200"       // for dev 
   }
 }
 
@@ -132,17 +138,37 @@ You can customize the proximity checker algorithm in `functions/src/index.ts`
 
 ## Development
 
+0. Setup
+    Edit `proxy.conf.json` file to intercept local CORS request with functions location
+    ```json
+    {
+      "/community-tracker-covid-19/us-central1/*": {  <-- you will see this this direction when serve functions
+        "target": "http://localhost:5001",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true
+      }
+    }
+    ```
+
 1. Install dependencies
 
-```console
-npm install
-```
-2. Star development server
+    ```console
+    npm install
+    ```
+2. Start development server
 
-```console
-npm run start
-```
-3. Start to develop
+    ```console
+    npm run start
+    ```
+
+3. Move to functions folder and execute
+    ```console
+    cd functions
+    npm run serve
+    ```
+
+4. Start to develop
 
 Navigate to [localhost:4200](http://localhost:4200).
 
@@ -152,7 +178,7 @@ npm run deploy
 ```
 
 ## Acknowledgment
-Thanks for people to contribute with it's ideas/opinions.
+Thanks for contribute with it's ideas/opinions and code.
 
 ## Licence
 Luis Reinoso [MIT LICENCE](LICENCE)

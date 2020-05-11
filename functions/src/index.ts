@@ -1,9 +1,10 @@
 import * as functions from 'firebase-functions';
 const environment = functions.config().env;
-const whitelist = [
+const nodeEnv = process.env.NODE_ENV || 'development';
+const whitelist = nodeEnv === 'development'? ['http://localhost:4200'] : [
   environment.firebase.appURL,
   environment.firebase.databaseURL
-]; // enable for test 'http://localhost:4200'
+];
 const corsOptionsDelegate = function(req: any, callback: any) {
   let corsOptions;
   if (whitelist.indexOf(req.header('Origin')) !== -1) {
@@ -17,7 +18,7 @@ const corsOptionsDelegate = function(req: any, callback: any) {
 const admin = require('firebase-admin');
 admin.initializeApp({
   credential: admin.credential.cert(environment.serviceAccount),
-  databaseURL: 'https://community-tracker-covid-19.firebaseio.com'
+  databaseURL: environment.firebase.databaseURL
 });
 
 const cors = require('cors')(corsOptionsDelegate);

@@ -8,3 +8,5 @@ typings/
 node_modules/
 env.json
 lib/
+.runtimeconfig.json
+firebase-debug.log
