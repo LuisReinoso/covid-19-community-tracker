@@ -50,10 +50,6 @@ export class MainViewComponent implements OnInit {
   }
 
   uploadData() {
-    if (!this.isMobile()) {
-      return;
-    }
-
     this.isActionInProgress$.next(true);
     const modalRef = this.modalService.open(DataModalComponent, { centered: true });
     if (this.dataService.hasLocalData()) {
@@ -75,10 +71,6 @@ export class MainViewComponent implements OnInit {
   }
 
   checkProximity() {
-    if (!this.isMobile()) {
-      return;
-    }
-
     this.isActionInProgress$.next(true);
     this.dataService.getProximity(this.mapService.location$.value).subscribe(
       (position: { proximity: string }) => {
@@ -108,10 +100,6 @@ export class MainViewComponent implements OnInit {
   }
 
   panToMyLocation() {
-    if (!this.isMobile()) {
-      return;
-    }
-
     if (this.mapService.panToMyLocation()) {
       this.notificationService.showNotification({
         header: 'Geolocalizacón',
@@ -126,9 +114,6 @@ export class MainViewComponent implements OnInit {
   }
 
   getMyGPSLocation() {
-    if (!this.isMobile()) {
-      return;
-    }
     this.mapService.getMyGPSLocation();
   }
 
